@@ -186,7 +186,10 @@ body.is-transitioning #nav-bar { pointer-events: none; }
     bottom: 12px;
     gap: 8px;
   }
-  #nav-primary bu
+  #nav-primary button,
+  #nav-bar > .exit-pill {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.85rem;
     max-width: 42vw;
     white-space: normal;
     line-height: 1.25;
