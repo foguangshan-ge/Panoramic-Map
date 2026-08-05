@@ -634,3 +634,5 @@ document.addEventListener("DOMContentLoaded", () => {
   engine.on("scene:change", () => refreshExitBar());
   gyroBtn.addEventListener("click", () => engine.toggleGyro());
 
+  mountDoorIntro(doorEl, doorCta, engine, () => {});
+});
