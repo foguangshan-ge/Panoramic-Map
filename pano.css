@@ -1,0 +1,193 @@
+/**
+ * pano.css — V3 全景版專用樣式
+ * 沿用 style.css 裡的色票變數（--wood / --gold / --paper...）。
+ * 導覽項目光點（.hotspot）的定位交給 Pannellum 自己算；
+ * 出口按鈕（往前走／分岔）現在都是固定在畫面下方的一般 DOM 按鈕，不在球面上，
+ * 定位就是普通的 CSS，不用管 Pannellum 的座標換算。
+ */
+
+html, body { margin: 0; height: 100%; overflow: hidden; }
+
+#pano {
+  position: fixed;
+  inset: 0;
+  background: #000;
+}
+
+/* Pannellum 預設會把自己的 UI 字型換掉，這裡拉回站內字體 */
+.pnlm-container { font-family: var(--font-body); }
+/* Pannellum 內建的場景標題（左下角那行，例如「戶外迴圈終點」）是給我們自己對照場景用的
+   技術資訊，不是給訪客看的內容——預設關掉，只有 ?debug=1 時（見 app-pano.js 的 PANO_DEBUG）
+   才顯示，方便測試時知道自己在哪個場景 */
+.pnlm-panorama-info { display: none; }
+body.pano-debug .pnlm-panorama-info { display: block; }
+
+/* ---------- 導覽項目光點（.hotspot，唯一還留在球面上的東西） ---------- */
+.pnlm-hotspot-base.hotspot {
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px; /* Pannellum 用元素中心點當定位基準，自己置中 */
+  border-radius: 50%;
+  background: rgba(42, 33, 24, 0.35);
+  border: 2px solid var(--gold-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+.pnlm-hotspot-base.hotspot:hover { transform: scale(1.15); background: rgba(42, 33, 24, 0.55); }
+.hotspot-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--gold);
+  animation: hotspot-pulse 2.2s ease-in-out infinite;
+}
+@keyframes hotspot-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(184, 134, 46, 0.55); }
+  50% { box-shadow: 0 0 0 10px rgba(184, 134, 46, 0); }
+}
+
+/* ---------- 固定的導覽按鈕列：分岔（左側／右側／地藏殿…）排上排，
+   上一步＋往前走的膠囊（#nav-primary）永遠自己獨立一排排在下排 ---------- */
+#nav-bar {
+  position: fixed;
+  left: 0; right: 0; bottom: 24px;
+  z-index: 20;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+}
+
+/* 分岔（左側戶外／右側戶外／地藏殿…）排在上面那排，維持各自獨立的膠囊 */
+#nav-bar > .exit-pill {
+  order: 1;
+  padding: 1rem 1.8rem;
+  border-radius: 999px;
+  border: 2px solid var(--wood-soft);
+  background: rgba(58, 42, 30, 0.75);
+  color: var(--paper);
+  font-size: 1.15rem;
+  font-weight: 600;
+  font-family: var(--font-body);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+#nav-bar > .exit-pill:hover { transform: scale(1.05); background: rgba(58, 42, 30, 0.92); }
+
+/* 換行點：order 排在分岔按鈕跟膠囊中間、寬度佔滿一整排、自身高度是 0——
+   flexbox 遇到寬度 100% 的子項就會強迫換行，這樣「換到下一排」的效果就不會
+   連帶影響到 #nav-primary 自己的寬度（之前直接把 flex-basis:100% 設在
+   #nav-primary 上，換行是換到了，但它自己也被撐成滿版寬，這裡改掉） */
+.nav-break { flex-basis: 100%; height: 0; order: 2; }
+
+/* 上一步＋往前走：同一個外框，中間一條細線當分隔，視覺上是「一顆」膠囊裡的兩個區塊。
+   order:3（排在換行點之後）、寬度交給內容自己撐開，不再用 flex-basis 硬指定寬度 */
+#nav-primary {
+  order: 3;
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 999px;
+  border: 2px solid var(--gold-soft);
+  background: rgba(58, 42, 30, 0.75);
+  overflow: hidden;
+}
+#nav-primary button {
+  border: none;
+  background: transparent;
+  padding: 1rem 1.8rem;
+  color: var(--paper);
+  font-size: 1.15rem;
+  font-weight: 600;
+  font-family: var(--font-body);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+#nav-primary button:hover { background: rgba(255, 255, 255, 0.1); }
+#nav-primary button:not(:first-child) { border-left: 1px solid rgba(255, 255, 255, 0.25); }
+/* v2.css 裡還留著舊版「#back-btn 自己用 calc(50%+75px) 手動定位」的規則，
+   那是幫 V2 舊版排版量身算的偏移量，這裡蓋掉那組定位屬性，讓 #back-btn
+   乖乖當 #nav-primary 裡的一般 flex 子項，不會自己飛去別的地方 */
+#back-btn { position: static; bottom: auto; right: auto; z-index: auto; }
+#back-btn[hidden] { display: none; }
+
+/* 換場景淡入淡出還沒播完時，暫時擋掉按鈕點擊，避免連點打斷 Pannellum 讀圖（見 app-pano.js 說明） */
+body.is-transitioning #nav-bar { pointer-events: none; }
+
+/* ---------- Sommaire：側欄自己有標題列＋關閉鈕，捲動內容跟標題分開，
+   解決捲動時內容跑到外面那顆「☰目錄」固定按鈕底下、視覺上互相打架的問題 ---------- */
+#sommaire-slot {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* v2.css 原本設在這一層的 overflow-y:auto 改放到 #sommaire-body */
+}
+.sommaire-header {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.2rem;
+  border-bottom: 1px solid var(--stone-line);
+}
+.sommaire-header__title {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--wood-dark);
+}
+#sommaire-close {
+  border: none;
+  background: none;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: var(--wood-dark);
+  cursor: pointer;
+  padding: 0.2rem 0.4rem;
+}
+#sommaire-body {
+  flex: 1 1 auto;
+  overflow-y: auto;
+}
+.sommaire { padding: 1rem 1rem 2rem; } /* 不用再留空間給外面的按鈕，標題列已經處理掉了 */
+
+
+#gyro-toggle {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 25;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1px solid var(--gold-soft);
+  background: rgba(42, 33, 24, 0.78);
+  color: var(--white);
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+@media (max-width: 720px) {
+  #nav-bar {
+    bottom: 12px;
+    gap: 8px;
+  }
+  #nav-primary button,
+  #nav-bar > .exit-pill {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.85rem;
+    max-width: 42vw;
+    white-space: normal;
+    line-height: 1.25;
+    text-align: center;
+  }
+  .pnlm-hotspot-base.hotspot { width: 30px; height: 30px; margin: -15px 0 0 -15px; }
+  #gyro-toggle { right: 12px; bottom: 12px; width: 42px; height: 42px; }
+}

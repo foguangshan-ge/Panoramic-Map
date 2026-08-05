@@ -1,0 +1,282 @@
+/* v2.css — 互動空間地圖樣式，CSS 變數沿用 style.css 的 :root 定義 */
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--wood-dark);
+  font-family: var(--font-body, "Work Sans", sans-serif);
+  overflow: hidden;
+}
+
+/* ---------------- 開場門 ---------------- */
+.door-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, var(--wood-dark), #241914);
+  color: var(--paper);
+  text-align: center;
+}
+.door-intro[hidden] { display: none; }
+.door-intro__inner { max-width: 480px; padding: 2rem; }
+.door-intro__title {
+  font-family: var(--font-display, "Cormorant Garamond", serif);
+  font-size: 2.2rem;
+  margin-bottom: 0.2rem;
+  color: var(--gold-soft);
+}
+.door-intro__title-zh {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  color: var(--paper);
+  opacity: 0.75;
+}
+.door-intro__subtitle { font-size: 1rem; opacity: 0.85; margin-bottom: 2rem; }
+.door-cta {
+  font-size: 1.1rem;
+  padding: 0.9rem 2.2rem;
+  border-radius: 999px;
+  border: 1px solid var(--gold-soft);
+  background: transparent;
+  color: var(--paper);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.door-cta:hover { background: rgba(217, 168, 78, 0.15); }
+
+/* ---------------- 場景舞台 ---------------- */
+.scene-viewport {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: var(--wood-dark);
+}
+.scene-stage {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.scene-stage__image {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  user-select: none;
+  -webkit-user-drag: none;
+  will-change: transform;
+  /* 讓瀏覽器把左右拖曳交給我們自己的邏輯處理，不要被當成滑動手勢／邊緣返回手勢搶走 */
+  touch-action: none;
+  cursor: grab;
+}
+.scene-stage__image:active { cursor: grabbing; }
+
+/* ---------------- 光點 ---------------- */
+.hotspot {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 44px; height: 44px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  z-index: 5;
+}
+.hotspot-dot {
+  display: block;
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff2d6 0%, var(--gold-soft) 45%, var(--gold) 78%, transparent 92%);
+  border: 2px solid rgba(255, 255, 255, 0.9); /* 白色描邊，不管背景照片深淺都能維持對比、看得清楚 */
+  box-shadow: 0 0 10px 2px rgba(217, 168, 78, 0.9), 0 0 0 0 rgba(217, 168, 78, 0.6);
+  animation: hotspot-pulse 2.2s ease-in-out infinite;
+}
+@keyframes hotspot-pulse {
+  0%   { box-shadow: 0 0 10px 2px rgba(217, 168, 78, 0.9), 0 0 0 0 rgba(217, 168, 78, 0.55); }
+  70%  { box-shadow: 0 0 10px 2px rgba(217, 168, 78, 0.9), 0 0 0 20px rgba(217, 168, 78, 0); }
+  100% { box-shadow: 0 0 10px 2px rgba(217, 168, 78, 0.9), 0 0 0 0 rgba(217, 168, 78, 0); }
+}
+
+/* ---------------- 出口箭頭 ---------------- */
+.scene-exit {
+  position: absolute;
+  bottom: 24px;
+  padding: 1rem 1.8rem;
+  border-radius: 999px;
+  border: 2px solid var(--gold-soft);
+  background: rgba(58, 42, 30, 0.75);
+  color: var(--paper);
+  font-size: 1.15rem;
+  font-weight: 600;
+  cursor: pointer;
+  z-index: 5;
+}
+.scene-exit--advance { left: calc(50% + 60px); transform: translateX(-50%); } /* 往右挪一點，讓「上一步＋往前走」這一組整體看起來置中 */
+.scene-exit--branch { right: 24px; }
+.scene-exit--branch-left { left: 24px; right: auto; } /* 左邊分岔按鈕放到畫面左側，跟右邊分岔分開，不要疊在同一角 */
+
+/* ---------------- 資訊卡 InfoPanel ---------------- */
+#info-panel-slot {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  pointer-events: none;
+}
+.info-panel {
+  pointer-events: auto;
+  position: absolute;
+  right: 0; top: 0; bottom: 0;
+  width: min(460px, 100%);
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: -8px 0 24px rgba(0,0,0,0.25);
+  overflow-y: auto;
+  padding: 1.5rem 1.2rem;
+  box-sizing: border-box;
+}
+.info-panel .tour-item { margin-bottom: 0; }
+.info-panel__close {
+  position: absolute;
+  top: 1rem; right: 1rem;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--stone-line);
+  background: var(--white);
+  font-size: 1.3rem;
+  cursor: pointer;
+  z-index: 2;
+}
+
+/* ---------------- 側邊 Sommaire ---------------- */
+#sommaire-toggle {
+  position: fixed;
+  top: 20px; left: 20px;
+  z-index: 30; /* 原本是 20，比 #sommaire-slot 的 25 低，導致目錄打開後蓋住按鈕，點不到、關不掉 */
+  padding: 0.6rem 1rem;
+  border-radius: 999px;
+  border: 1px solid var(--gold-soft);
+  background: rgba(58, 42, 30, 0.75);
+  color: var(--paper);
+  cursor: pointer;
+}
+#lang-toggle {
+  position: fixed;
+  top: 20px; right: 20px;
+  z-index: 30;
+  padding: 0.6rem 1rem;
+  border-radius: 999px;
+  border: 1px solid var(--gold-soft);
+  background: rgba(58, 42, 30, 0.75);
+  color: var(--paper);
+  cursor: pointer;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+#back-btn {
+  position: fixed;
+  bottom: 24px; right: calc(50% + 75px); /* 跟置中的「往前走」湊成一組；往前走往右挪了 60px，這裡跟著調整維持原本間距 */
+  z-index: 20; /* debug-hud 現在關了（SHOW_DEBUG_HUD=false），不用再蓋過 9999，
+                   降回跟 sommaire-toggle 同等級，才不會蓋住資訊卡/音檔播放器（z-index:30） */
+  padding: 1rem 1.8rem;
+  border-radius: 999px;
+  border: 2px solid var(--gold-soft);
+  background: rgba(58, 42, 30, 0.75);
+  color: var(--paper);
+  font-size: 1.15rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+#back-btn[hidden] { display: none; }
+#sommaire-slot {
+  position: fixed;
+  inset: 0 auto 0 0;
+  z-index: 25;
+  width: min(320px, 85%);
+  background: var(--paper);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  overflow-y: auto;
+  box-shadow: 8px 0 24px rgba(0,0,0,0.2);
+}
+#sommaire-slot.is-open { transform: translateX(0); }
+.sommaire { padding: 4.5rem 1rem 2rem; }
+.sommaire__group h3 {
+  font-family: var(--font-display, "Cormorant Garamond", serif);
+  color: var(--gold);
+  border-bottom: 1px solid var(--stone-line);
+  padding-bottom: 0.3rem;
+  margin: 1.4rem 0 0.5rem;
+}
+.sommaire__item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 0.5rem 0.3rem;
+  font-size: 0.95rem;
+  color: var(--ink);
+  cursor: pointer;
+  border-radius: 4px;
+}
+.sommaire__item:hover { background: var(--stone); }
+
+/* ---------------- 手機版（螢幕寬度 ≤ 640px） ---------------- */
+@media (max-width: 640px) {
+  /* 上一步在桌面版是跟「往前走」湊一組、用 calc(50%+90px) 定位，
+     但這個公式在窄螢幕上會讓按鈕整個被推出左邊界（實測 375px 寬的手機
+     大概有一半的按鈕跑到螢幕外面，點不到）。手機版改成回到左下角單獨一顆，
+     跟置中的「往前走」、右邊的分岔按鈕三個分開，互不重疊。 */
+  #back-btn {
+    left: 12px; right: auto; bottom: 12px;
+    padding: 0.5rem 0.8rem;
+    font-size: 0.85rem;
+  }
+
+  #sommaire-toggle, #lang-toggle {
+    top: 12px;
+    padding: 0.5rem 0.8rem;
+    font-size: 0.85rem;
+  }
+  #sommaire-toggle { left: 12px; }
+  #lang-toggle { right: 12px; }
+
+  /* 出口按鈕：手機版文字容易比按鈕寬（例如「左轉下樓」這種長標籤），
+     加上 max-width + 允許換行，不然文字會被硬擠成一長條、甚至超出螢幕。
+
+     另外，場景最多可能同時出現 4 顆按鈕（返回＋左分岔＋往前走＋右分岔），
+     桌機版是靠「往前走」用 calc(50%+60px) 讓位給旁邊的返回鈕，這個位移量
+     在窄螢幕上换算後太靠右，會直接疊到右邊的分岔鈕上；返回鈕固定在左下角
+     也會跟左分岔鈕疊在同一個位置。手機版改成明確分兩排：
+       下排（bottom: 12px）：返回鈕（左）＋往前走（置中，不再用桌機那個
+         +60px 偏移，因為手機版返回鈕已經跟它分開一排，不用讓位）
+       上排（bottom: 68px）：左分岔（左）＋右分岔（右）
+     四顆最多同時出現時也不會互相重疊，只出現其中一兩顆時上/下排自然會空著。 */
+  .scene-exit {
+    bottom: 12px;
+    padding: 0.5rem 0.8rem;
+    font-size: 0.8rem;
+    max-width: 42vw;
+    white-space: normal;
+    line-height: 1.25;
+    text-align: center;
+  }
+  .scene-exit--advance {
+    max-width: 55vw;
+    left: 50%; right: auto; transform: translateX(-50%);
+  }
+  .scene-exit--branch { right: 12px; bottom: 68px; }
+  .scene-exit--branch-left { left: 12px; right: auto; bottom: 68px; }
+
+  /* 光點觸控目標加大：36px 對手指來說偏小，Apple/Google 的建議最小觸控
+     尺寸都是 44px，這裡加大但視覺上的點（.hotspot-dot）維持原本比例，
+     只是可點擊的判定範圍變大，比較不會點不準。 */
+  .hotspot { width: 44px; height: 44px; }
+
+  .info-panel { padding: 1.2rem 1rem; }
+  .info-panel__close { top: 0.7rem; right: 0.7rem; width: 32px; height: 32px; }
+
+  #sommaire-slot { width: min(280px, 88%); }
+  .sommaire { padding: 4rem 0.9rem 2rem; }
+}
