@@ -470,21 +470,20 @@ function renderInfoPanel(tourItemId, onClose) {
           ),
           el("p", { class: "tour-item-media-caption" }, ["Touchez l'image pour l'agrandir"]),
         ]),
-        el("div", { class: "tour-item-meta" }, [
-          el("p", { class: "tour-item-eyebrow" }, [
-            el("span", null, ["N° " + item.id]),
-            el("span", { class: "sep" }, ["·"]),
-            el("span", null, [item.category]),
-            el("span", { class: "sep" }, ["·"]),
-            el("span", null, [tArea(item.area)]),
-          ]),
-          el("h2", { class: "tour-item-title" }, [title]),
-          el("p", { class: "tour-item-short" }, [shortDescription]),
-          el("div", { class: "tour-item-actions" }, [
-            el("button", { class: "btn btn-primary", onclick: () => playItem(item.id) }, ["▶ Écouter le commentaire"]),
-          ]),
+        el("div", { class: "tour-item-tags" }, [
+          el("span", { class: "tour-item-tag" }, ["N° " + item.id]),
+          el("span", { class: "tour-item-tag" }, [item.category]),
+          el("span", { class: "tour-item-tag" }, [tArea(item.area)]),
         ]),
       ]),
+      el("div", { class: "tour-item-summary-card" }, [
+        el("h2", { class: "tour-item-title" }, [title]),
+        el("p", { class: "tour-item-short" }, [shortDescription]),
+        el("div", { class: "tour-item-actions" }, [
+          el("button", { class: "btn btn-primary", onclick: () => playItem(item.id) }, ["▶ Écouter le commentaire"]),
+        ]),
+      ]),
+      el("div", { class: "tour-item-divider" }),
       el("div", { class: "tour-item-body" }, fullText.map((para) => el("p", null, [para]))),
     ]),
   ]);
@@ -496,7 +495,7 @@ function renderInfoPanel(tourItemId, onClose) {
 // ============================================================
 // Sommaire（沿用 V2）
 // ============================================================
-function renderSommaire(onItemClick) {
+function renderSommaire(onItemClick, activeItemId) {
   const el2 = document.createElement("nav");
   el2.className = "sommaire";
   AREAS.forEach((area) => {
@@ -505,7 +504,7 @@ function renderSommaire(onItemClick) {
     group.innerHTML = `<h3>${tArea(area)}</h3>`;
     TOUR_ITEMS.filter((i) => i.area === area).forEach((item) => {
       const btn = document.createElement("button");
-      btn.className = "sommaire__item";
+      btn.className = "sommaire__item" + (item.id === activeItemId ? " sommaire__item--active" : "");
       btn.textContent = `${item.order}. ${tItem(item, "title")}`;
       btn.addEventListener("click", () => onItemClick(item.id));
       group.appendChild(btn);
@@ -556,8 +555,13 @@ document.addEventListener("DOMContentLoaded", () => {
   function openInfoPanel(tourItemId) {
     openItemId = tourItemId;
     infoPanelSlot.innerHTML = "";
-    const panel = renderInfoPanel(tourItemId, () => { openItemId = null; infoPanelSlot.innerHTML = ""; });
+    const panel = renderInfoPanel(tourItemId, () => {
+      openItemId = null;
+      infoPanelSlot.innerHTML = "";
+      refreshSommaire(); // 關掉資訊卡時，目錄裡的「目前位置」高亮也要跟著消失
+    });
     if (panel) infoPanelSlot.appendChild(panel);
+    refreshSommaire(); // 打開資訊卡時，目錄裡對應那行馬上標成「目前位置」
   }
 
   function closeSommaire() {
@@ -578,7 +582,7 @@ document.addEventListener("DOMContentLoaded", () => {
     sommaireBody.appendChild(renderSommaire((id) => {
       openInfoPanel(id);
       closeSommaire();
-    }));
+    }, openItemId));
   }
 
   /** 目前這個場景所有的出口都在這裡：advance 併進 #nav-primary 跟「上一步」包成同一顆膠囊

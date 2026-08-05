@@ -545,8 +545,8 @@ select:focus-visible,
   margin-bottom: 1.6rem;
 }
 
-.tour-item-head { display: flex; flex-wrap: wrap; gap: 1.6rem; margin-bottom: 1.2rem; }
-.tour-item-media { flex-shrink: 0; width: 160px; }
+.tour-item-head { display: flex; flex-direction: column; align-items: center; gap: 0.9rem; margin-bottom: 1.2rem; }
+.tour-item-media { width: 65%; min-width: 200px; }
 .tour-item-media button {
   display: block;
   width: 100%;
@@ -559,23 +559,32 @@ select:focus-visible,
 .tour-item-media img { width: 100%; height: auto; }
 .tour-item-media-caption { font-size: 0.82rem; color: var(--ink-soft); text-align: center; margin-top: 0.5em; }
 
-.tour-item-meta { flex: 1; min-width: 220px; }
-.tour-item-eyebrow {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5em 0.9em;
-  font-size: 0.82rem;
-  text-transform: uppercase;
-  letter-spacing: 0.07em;
-  color: var(--gold);
+/* 編號／分類／區域，改成三個小膠囊標籤，不再是同一行文字用「·」隔開 */
+.tour-item-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5em; }
+.tour-item-tag {
+  display: inline-block;
+  padding: 0.25em 0.85em;
+  border-radius: var(--radius-full);
+  background: var(--stone);
+  color: var(--wood-dark);
+  font-size: 0.78rem;
   font-weight: 700;
-  margin-bottom: 0.5em;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
-.tour-item-eyebrow .sep { color: var(--stone-line); text-transform: none; letter-spacing: 0; }
+
+/* 標題＋簡介＋播放鍵，包在一張淡色卡片裡，跟下面的完整文章做出層次區隔 */
+.tour-item-summary-card {
+  background: var(--stone);
+  border-radius: var(--radius-md);
+  padding: 1.2rem 1.4rem;
+}
 .tour-item-title { margin-bottom: 0.4em; }
 .tour-item-short { color: var(--ink-soft); font-size: 1.05rem; }
 
 .tour-item-actions { display: flex; gap: 0.7rem; flex-wrap: wrap; margin-top: 1rem; }
+
+.tour-item-divider { height: 1px; background: var(--stone-line); margin: 1.6rem 0; }
 
 .tour-item-body { font-size: 1.08rem; line-height: 1.75; max-width: 72ch; }
 .tour-item-body p { margin-bottom: 1.1em; }
@@ -599,8 +608,7 @@ select:focus-visible,
 .back-to-overview { text-align: center; margin-top: 2rem; }
 
 @media (max-width: 560px) {
-  .tour-item-head { flex-direction: column; }
-  .tour-item-media { width: 120px; }
+  .tour-item-media { width: 85%; min-width: 0; }
 }
 
 /* ==========================================================================

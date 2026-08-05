@@ -214,13 +214,29 @@ html, body {
   text-align: left;
   background: none;
   border: none;
-  padding: 0.5rem 0.3rem;
+  border-left: 3px solid transparent;
+  padding: 0.5rem 0.3rem 0.5rem calc(0.3rem + 3px);
   font-size: 0.95rem;
   color: var(--ink);
   cursor: pointer;
   border-radius: 4px;
+  transition: transform 0.15s ease, background 0.15s ease;
 }
-.sommaire__item:hover { background: var(--stone); }
+.sommaire__item:hover { background: var(--stone); transform: translateX(4px); }
+/* 目前打開的那篇資訊卡，在目錄裡對應那行的「目前位置」樣式 */
+.sommaire__item--active {
+  background: rgba(184, 134, 46, 0.12);
+  border-left-color: var(--gold);
+  color: var(--wood-dark);
+  font-weight: 700;
+}
+.sommaire__item--active::before {
+  content: "●";
+  color: var(--gold);
+  font-size: 0.6em;
+  margin-right: 0.5em;
+  vertical-align: middle;
+}
 
 /* ---------------- 手機版（螢幕寬度 ≤ 640px） ---------------- */
 @media (max-width: 640px) {
