@@ -61,6 +61,13 @@ body.pano-debug .pnlm-panorama-info { display: block; }
   align-items: center;
   gap: 12px;
   padding: 0 16px;
+  transition: bottom 0.25s ease; /* 音檔播放器出現/消失時，位置平滑移動，不是生硬的一跳 */
+}
+/* 音檔播放器打開時墊高導覽按鈕列，避免被播放器蓋住——偏移量沿用 style.css
+   裡 .back-to-top 已經用過的同一組數字（播放器桌機/手機版高度不同） */
+body.has-audio-dock #nav-bar { bottom: 7.4rem; }
+@media (max-width: 760px) {
+  body.has-audio-dock #nav-bar { bottom: 9.6rem; }
 }
 
 /* 分岔（左側戶外／右側戶外／地藏殿…）排在上面那排，維持各自獨立的膠囊 */
