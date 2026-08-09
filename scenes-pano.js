@@ -25,7 +25,10 @@ const SCENES = [
     label: "Parking et entrée", label_en: "Parking area and entrance", label_zh: "停車場入口",
     image: "images/panos/test1.jpg",
     pitch: 0, yaw: 0, hfov: 100, horizonRoll: 2.3, horizonPitch: 0,
-    hotspots: [{ pitch: 0, yaw: 0, tourItemId: "1-1" }],
+    hotspots: [
+      { pitch: 0, yaw: 0, tourItemId: "1-1" },
+      { pitch: 9.5, yaw: -17.3, tourItemId: "1-2" },
+    ],
     exits: [
       { type: "advance", toSceneId: "2", label: "Avancer", label_en: "Move forward", label_zh: "往前走", yaw: 2, targetYaw: 88, targetPitch: 3 },
     ],
@@ -37,7 +40,10 @@ const SCENES = [
     label: "Cour intérieure", label_en: "Inner courtyard", label_zh: "內庭廣場（岔路口）",
     image: "images/panos/test2.jpg",
     pitch: 3, yaw: 88, hfov: 100, horizonRoll: 2.3, horizonPitch: 0,
-    hotspots: [{ pitch: 17.5, yaw: -49.1, tourItemId: "1-2" }],
+    hotspots: [
+      { pitch: 17.5, yaw: -49.1, tourItemId: "1-2" },
+      { pitch: 3.7, yaw: 97.7, tourItemId: "1-4" },
+    ],
     exits: [
       { type: "advance", toSceneId: "6", label: "Entrer dans le hall", label_en: "Enter the lobby", label_zh: "進入大廳", yaw: 0, targetYaw: 0, targetPitch: 0 },
       { type: "branch", toSceneId: "9", label: "Aile gauche (extérieur)", label_en: "Left wing (outdoor)", label_zh: "左側戶外", side: "left", yaw: -110 },
@@ -121,7 +127,7 @@ const SCENES = [
     ],
     exits: [
       { type: "advance", toSceneId: "7", label: "Entrer dans la grande salle", label_en: "Enter the main hall", label_zh: "進入大殿", yaw: 0, targetYaw: 177.2, targetPitch: 3.4 },
-      { type: "branch", toSceneId: "8", label: "Salle de Ksitigarbha", label_en: "Ksitigarbha Hall", label_zh: "地藏殿", yaw: -100 },
+      { type: "branch", toSceneId: "8", label: "Salle de Ksitigarbha", label_en: "Ksitigarbha Hall", label_zh: "地藏殿", side: "left", yaw: -100 },
     ],
   },
   {
