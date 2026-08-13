@@ -1,0 +1,167 @@
+backend:
+  name: github
+  repo: Shikong1101/Panoramic-Map
+  branch: main
+  base_url: https://black-cloud-bfc9.renweizhang23.workers.dev
+  auth_endpoint: auth
+
+# 每次存檔前，Decap 會先跳出「這則變更的內容 vs 原本內容」給你確認，
+# 避免手滑存錯、或忘記自己改了什麼。
+
+
+media_folder: "images"   # 上傳圖片時，檔案預設會被放進這個資料夾（下面各欄位有各自的覆蓋設定）
+public_folder: "images"  # 網頁上圖片路徑的對應寫法
+
+locale: "zh_Hant"
+
+collections:
+  - name: "site_data"
+    label: "全景導覽網站內容"
+    files:
+      - file: "data/temple-data.json"
+        label: "道場資訊 + 16 個導覽項目"
+        name: "temple_data"
+        fields:
+          - label: "道場基本資訊"
+            name: "templeInfo"
+            widget: "object"
+            fields:
+              - { label: "道場名稱", name: "name", widget: "string" }
+              - { label: "首頁標語（一句話）", name: "tagline", widget: "string" }
+              - { label: "首頁簡介段落", name: "intro", widget: "text" }
+              - label: "怎麼使用這個導覽（首頁步驟說明）"
+                name: "howToUse"
+                widget: "list"
+              - label: "開放時間 / 參觀方式說明"
+                name: "openingInfo"
+                widget: "list"
+              - label: "注意事項"
+                name: "notices"
+                widget: "list"
+              - label: "聯絡資訊"
+                name: "contact"
+                widget: "object"
+                fields:
+                  - { label: "地址", name: "address", widget: "string" }
+                  - { label: "電話", name: "phone", widget: "string" }
+                  - { label: "Email", name: "email", widget: "string" }
+                  - { label: "官方網站", name: "website", widget: "string" }
+
+          - label: "分區列表（側邊選單分類，通常不用改）"
+            name: "areas"
+            widget: "list"
+            hint: "這是導覽項目與全景場景分類用的區域名稱，改這裡不會自動搬動下面每個項目/場景的所屬分區，要小心。"
+
+          - label: "16 個導覽項目"
+            name: "tourItems"
+            widget: "list"
+            summary: "{{fields.order}}. {{fields.title}}"
+            fields:
+              - { label: "編號（例如 1-1，不要改，除非確定知道在做什麼——全景場景的熱點會用這個編號連結過來）", name: "id", widget: "string" }
+              - { label: "顯示順序（數字，越小越前面）", name: "order", widget: "number", value_type: "int" }
+              - label: "類別"
+                name: "category"
+                widget: "select"
+                options: ["Statue", "Symbole", "Bodhisattva", "Enseignement", "Maître", "Instrument rituel", "Vêtement rituel", "Bouddha"]
+              - label: "所屬分區"
+                name: "area"
+                widget: "select"
+                options: ["Entrée et parvis", "Grande salle du Bouddha", "Salle de Ksitigarbha"]
+              - { label: "照片", name: "image", widget: "image", media_folder: "/images/photos", public_folder: "images/photos" }
+              - { label: "照片替代文字（給視障輔助工具讀的說明，不會顯示在畫面上）", name: "imageAlt", widget: "string" }
+
+              - { label: "標題（法文）", name: "title", widget: "string" }
+              - { label: "標題（英文，選填，沒填的話網頁會顯示法文版）", name: "title_en", widget: "string", required: false }
+              - { label: "標題（中文，選填，沒填的話網頁會顯示法文版）", name: "title_zh", widget: "string", required: false }
+
+              - { label: "摘要（法文，一到兩句話）", name: "shortDescription", widget: "text" }
+              - { label: "摘要（英文，選填）", name: "shortDescription_en", widget: "text", required: false }
+              - { label: "摘要（中文，選填）", name: "shortDescription_zh", widget: "text", required: false }
+
+              - label: "全文內容（法文，每一段分開填，會自動照順序顯示）"
+                name: "fullText"
+                widget: "list"
+              - label: "全文內容（英文，選填，每一段分開填）"
+                name: "fullText_en"
+                widget: "list"
+                required: false
+              - label: "全文內容（中文，選填，每一段分開填）"
+                name: "fullText_zh"
+                widget: "list"
+                required: false
+
+              - { label: "語音檔案（法文）", name: "audio", widget: "file", media_folder: "/audio", public_folder: "audio" }
+              - { label: "語音檔案（英文，選填，沒填的話網頁會播放法文版）", name: "audio_en", widget: "file", media_folder: "/audio", public_folder: "audio", required: false }
+              - { label: "語音檔案（中文，選填，沒填的話網頁會播放法文版）", name: "audio_zh", widget: "file", media_folder: "/audio", public_folder: "audio", required: false }
+              - { label: "語音長度（法文版，秒數，換新的音檔後記得更新，不然播放器一開始顯示的時間會不準）", name: "audioDuration", widget: "number", value_type: "int" }
+              - { label: "語音長度（英文版，秒數，選填）", name: "audioDuration_en", widget: "number", value_type: "int", required: false }
+              - { label: "語音長度（中文版，秒數，選填）", name: "audioDuration_zh", widget: "number", value_type: "int", required: false }
+
+      - file: "data/scenes-data.json"
+        label: "全景場景與動線"
+        name: "scenes_data"
+        fields:
+          - label: "起始場景編號"
+            name: "entrySceneId"
+            widget: "string"
+            hint: "使用者一打開網站，會先站在哪個場景——填下面某個場景的「場景編號」。"
+
+          - label: "全景場景（12 個節點）"
+            name: "scenes"
+            widget: "list"
+            summary: "{{fields.id}}. {{fields.label}}"
+            fields:
+              - { label: "場景編號（跟全景圖檔名、熱點、動線互相對應，不要亂改，除非確定知道在做什麼）", name: "id", widget: "string" }
+              - label: "所屬分區"
+                name: "area"
+                widget: "select"
+                options: ["Entrée et parvis", "Grande salle du Bouddha", "Salle de Ksitigarbha"]
+
+              - { label: "場景名稱（法文）", name: "label", widget: "string" }
+              - { label: "場景名稱（英文，選填）", name: "label_en", widget: "string", required: false }
+              - { label: "場景名稱（中文，選填）", name: "label_zh", widget: "string", required: false }
+
+              - label: "360 全景圖"
+                name: "image"
+                widget: "image"
+                media_folder: "/images/panos"
+                public_folder: "images/panos"
+
+              - { label: "初始視角 pitch（上下角度）", name: "pitch", widget: "number", value_type: "float" }
+              - { label: "初始視角 yaw（左右角度）", name: "yaw", widget: "number", value_type: "float" }
+              - { label: "視野角度 hfov", name: "hfov", widget: "number", value_type: "float" }
+              - { label: "水平線校正 horizonRoll", name: "horizonRoll", widget: "number", value_type: "float" }
+              - { label: "水平線校正 horizonPitch", name: "horizonPitch", widget: "number", value_type: "float" }
+
+              - label: "熱點（畫面上可點擊、連到某個導覽項目的位置）"
+                name: "hotspots"
+                widget: "list"
+                summary: "→ {{fields.tourItemId}}"
+                required: false
+                fields:
+                  - { label: "pitch（上下角度）", name: "pitch", widget: "number", value_type: "float" }
+                  - { label: "yaw（左右角度）", name: "yaw", widget: "number", value_type: "float" }
+                  - { label: "對應的導覽項目編號（例如 1-1）", name: "tourItemId", widget: "string" }
+
+              - label: "動線出口（advance＝繼續往前，branch＝岔路）"
+                name: "exits"
+                widget: "list"
+                summary: "{{fields.type}} → {{fields.toSceneId}}"
+                fields:
+                  - label: "類型"
+                    name: "type"
+                    widget: "select"
+                    options: ["advance", "branch"]
+                  - { label: "前往的場景編號", name: "toSceneId", widget: "string" }
+                  - { label: "按鈕文字（法文）", name: "label", widget: "string" }
+                  - { label: "按鈕文字（英文，選填）", name: "label_en", widget: "string", required: false }
+                  - { label: "按鈕文字（中文，選填）", name: "label_zh", widget: "string", required: false }
+                  - { label: "yaw（出口方向角度）", name: "yaw", widget: "number", value_type: "float" }
+                  - { label: "抵達新場景後的視角 targetYaw（選填）", name: "targetYaw", widget: "number", value_type: "float", required: false }
+                  - { label: "抵達新場景後的視角 targetPitch（選填）", name: "targetPitch", widget: "number", value_type: "float", required: false }
+                  - label: "岔路方向（僅 branch 用，選填）"
+                    name: "side"
+                    widget: "select"
+                    options: ["left", "right"]
+                    required: false
+                  - { label: "是否回到分岔前的視角（reset，選填）", name: "reset", widget: "boolean", required: false, default: false }

@@ -21,6 +21,13 @@ const SHOW_DEBUG_HUD = false;
 const PANO_DEBUG = new URLSearchParams(location.search).get("debug") === "1";
 if (PANO_DEBUG) document.body.classList.add("pano-debug");
 
+// 道場資訊／導覽項目／全景場景資料，原本是 data.js／scenes-pano.js 用
+// <script> 標籤同步載入的全域變數；現在改成透過 CMS 可編輯的 JSON
+// （data/temple-data.json、data/scenes-data.json）在下面 DOMContentLoaded
+// 一開始 fetch 進來再賦值，其餘程式碼完全不用改，因為都是在這之後才會
+// 被呼叫到的函式。
+let TEMPLE_INFO, AREAS, TOUR_ITEMS, SCENES, ENTRY_SCENE_ID;
+
 // ============================================================
 // 語言切換（原封不動沿用 V2）
 // ============================================================
@@ -535,7 +542,17 @@ function mountDoorIntro(doorEl, ctaEl, engine, onDone) {
 // ============================================================
 // 組裝
 // ============================================================
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+  const [templeData, scenesData] = await Promise.all([
+    fetch("data/temple-data.json").then((r) => r.json()),
+    fetch("data/scenes-data.json").then((r) => r.json()),
+  ]);
+  TEMPLE_INFO = templeData.templeInfo;
+  AREAS = templeData.areas;
+  TOUR_ITEMS = templeData.tourItems.sort((a, b) => a.order - b.order);
+  SCENES = scenesData.scenes;
+  ENTRY_SCENE_ID = scenesData.entrySceneId;
+
   const infoPanelSlot = document.getElementById("info-panel-slot");
   const sommaireSlot = document.getElementById("sommaire-slot");
   const doorEl = document.getElementById("door-intro");

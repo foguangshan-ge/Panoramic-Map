@@ -1,0 +1,426 @@
+{
+  "entrySceneId": "1",
+  "scenes": [
+    {
+      "id": "1",
+      "area": "Entrée et parvis",
+      "label": "Parking et entrée",
+      "label_en": "Parking area and entrance",
+      "label_zh": "停車場入口",
+      "image": "images/panos/test1.jpg",
+      "pitch": 0,
+      "yaw": 0,
+      "hfov": 100,
+      "horizonRoll": 2.3,
+      "horizonPitch": 0,
+      "hotspots": [
+        {
+          "pitch": 0,
+          "yaw": 0,
+          "tourItemId": "1-1"
+        },
+        {
+          "pitch": 9.5,
+          "yaw": -17.3,
+          "tourItemId": "1-2"
+        }
+      ],
+      "exits": [
+        {
+          "type": "advance",
+          "toSceneId": "2",
+          "label": "Avancer",
+          "label_en": "Move forward",
+          "label_zh": "往前走",
+          "yaw": 2,
+          "targetYaw": 88,
+          "targetPitch": 3
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "area": "Entrée et parvis",
+      "label": "Cour intérieure",
+      "label_en": "Inner courtyard",
+      "label_zh": "內庭廣場（岔路口）",
+      "image": "images/panos/test2.jpg",
+      "pitch": 3,
+      "yaw": 88,
+      "hfov": 100,
+      "horizonRoll": 2.3,
+      "horizonPitch": 0,
+      "hotspots": [
+        {
+          "pitch": 17.5,
+          "yaw": -49.1,
+          "tourItemId": "1-2"
+        },
+        {
+          "pitch": 3.7,
+          "yaw": 97.7,
+          "tourItemId": "1-4"
+        }
+      ],
+      "exits": [
+        {
+          "type": "advance",
+          "toSceneId": "6",
+          "label": "Entrer dans le hall",
+          "label_en": "Enter the lobby",
+          "label_zh": "進入大廳",
+          "yaw": 0,
+          "targetYaw": 0,
+          "targetPitch": 0
+        },
+        {
+          "type": "branch",
+          "toSceneId": "9",
+          "label": "Aile gauche (extérieur)",
+          "label_en": "Left wing (outdoor)",
+          "label_zh": "左側戶外",
+          "side": "left",
+          "yaw": -110
+        },
+        {
+          "type": "branch",
+          "toSceneId": "10",
+          "label": "Aile droite (extérieur)",
+          "label_en": "Right wing (outdoor)",
+          "label_zh": "右側戶外",
+          "yaw": 110
+        }
+      ]
+    },
+    {
+      "id": "9",
+      "area": "Entrée et parvis",
+      "label": "Jardin gauche 1",
+      "label_en": "Left garden 1",
+      "label_zh": "左側戶外 1",
+      "image": "images/panos/test9.jpg",
+      "pitch": 0,
+      "yaw": 0,
+      "hfov": 100,
+      "horizonRoll": 1.2,
+      "horizonPitch": 0,
+      "hotspots": [],
+      "exits": [
+        {
+          "type": "advance",
+          "toSceneId": "5",
+          "label": "Avancer",
+          "label_en": "Move forward",
+          "label_zh": "往前走",
+          "yaw": 0,
+          "targetYaw": 0,
+          "targetPitch": 0
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "area": "Entrée et parvis",
+      "label": "Jardin gauche 2",
+      "label_en": "Left garden 2",
+      "label_zh": "左側戶外 2",
+      "image": "images/panos/test5.jpg",
+      "pitch": 0,
+      "yaw": 0,
+      "hfov": 100,
+      "horizonRoll": 0,
+      "horizonPitch": 0,
+      "hotspots": [],
+      "exits": [
+        {
+          "type": "advance",
+          "toSceneId": "11",
+          "label": "Avancer",
+          "label_en": "Move forward",
+          "label_zh": "往前走",
+          "yaw": 0,
+          "targetYaw": -89.5,
+          "targetPitch": -1.3
+        }
+      ]
+    },
+    {
+      "id": "11",
+      "area": "Entrée et parvis",
+      "label": "Jardin gauche 3",
+      "label_en": "Left garden 3",
+      "label_zh": "左側戶外 3",
+      "image": "images/panos/test11.jpg",
+      "pitch": -6.3,
+      "yaw": -94.9,
+      "hfov": 100,
+      "horizonRoll": 0,
+      "horizonPitch": 0,
+      "hotspots": [],
+      "exits": [
+        {
+          "type": "advance",
+          "toSceneId": "4",
+          "label": "Avancer",
+          "label_en": "Move forward",
+          "label_zh": "往前走",
+          "yaw": 0,
+          "targetYaw": -57.7,
+          "targetPitch": -20.6
+        }
+      ]
+    },
+    {
+      "id": "10",
+      "area": "Entrée et parvis",
+      "label": "Jardin droit 1",
+      "label_en": "Right garden 1",
+      "label_zh": "右側戶外 1",
+      "image": "images/panos/test10.jpg",
+      "pitch": 0,
+      "yaw": 0,
+      "hfov": 100,
+      "horizonRoll": 0,
+      "horizonPitch": 0,
+      "hotspots": [],
+      "exits": [
+        {
+          "type": "advance",
+          "toSceneId": "3",
+          "label": "Avancer",
+          "label_en": "Move forward",
+          "label_zh": "往前走",
+          "yaw": 0,
+          "targetYaw": 90,
+          "targetPitch": 1
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "area": "Entrée et parvis",
+      "label": "Jardin droit 2",
+      "label_en": "Right garden 2",
+      "label_zh": "右側戶外 2",
+      "image": "images/panos/test3.jpg",
+      "pitch": -13.6,
+      "yaw": 93.8,
+      "hfov": 100,
+      "horizonRoll": 2.3,
+      "horizonPitch": 0,
+      "hotspots": [],
+      "exits": [
+        {
+          "type": "advance",
+          "toSceneId": "12",
+          "label": "Avancer",
+          "label_en": "Move forward",
+          "label_zh": "往前走",
+          "yaw": 0,
+          "targetYaw": 96.1,
+          "targetPitch": -14.3
+        }
+      ]
+    },
+    {
+      "id": "12",
+      "area": "Entrée et parvis",
+      "label": "Jardin droit 3",
+      "label_en": "Right garden 3",
+      "label_zh": "右側戶外 3",
+      "image": "images/panos/test12.jpg",
+      "pitch": -9.9,
+      "yaw": 92.2,
+      "hfov": 100,
+      "horizonRoll": 0,
+      "horizonPitch": 0,
+      "hotspots": [],
+      "exits": [
+        {
+          "type": "advance",
+          "toSceneId": "4",
+          "label": "Avancer",
+          "label_en": "Move forward",
+          "label_zh": "往前走",
+          "yaw": 0,
+          "targetYaw": -57.7,
+          "targetPitch": -20.6
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "area": "Entrée et parvis",
+      "label": "Fin du jardin (gauche et droit)",
+      "label_en": "End of the garden loop (left and right)",
+      "label_zh": "戶外迴圈終點",
+      "image": "images/panos/test4.jpg",
+      "pitch": -24.4,
+      "yaw": -45.8,
+      "hfov": 100,
+      "horizonRoll": 0,
+      "horizonPitch": 0,
+      "hotspots": [
+        {
+          "pitch": -25.8,
+          "yaw": -57.1,
+          "tourItemId": "1-3"
+        }
+      ],
+      "exits": [
+        {
+          "type": "branch",
+          "toSceneId": "2",
+          "label": "Retour à la cour intérieure",
+          "label_en": "Back to the inner courtyard",
+          "label_zh": "回到內庭廣場",
+          "yaw": 180,
+          "reset": true
+        }
+      ]
+    },
+    {
+      "id": "6",
+      "area": "Grande salle du Bouddha",
+      "label": "Hall d'accueil",
+      "label_en": "Entrance lobby",
+      "label_zh": "入口大廳（岔路口）",
+      "image": "images/panos/test6.jpg",
+      "pitch": 0,
+      "yaw": 0,
+      "hfov": 100,
+      "horizonRoll": 1.3,
+      "horizonPitch": 0,
+      "hotspots": [
+        {
+          "pitch": -3.6,
+          "yaw": -0.6,
+          "tourItemId": "1-4"
+        },
+        {
+          "pitch": -5.4,
+          "yaw": 175.7,
+          "tourItemId": "2-1"
+        }
+      ],
+      "exits": [
+        {
+          "type": "advance",
+          "toSceneId": "7",
+          "label": "Entrer dans la grande salle",
+          "label_en": "Enter the main hall",
+          "label_zh": "進入大殿",
+          "yaw": 0,
+          "targetYaw": 177.2,
+          "targetPitch": 3.4
+        },
+        {
+          "type": "branch",
+          "toSceneId": "8",
+          "label": "Salle de Ksitigarbha",
+          "label_en": "Ksitigarbha Hall",
+          "label_zh": "地藏殿",
+          "side": "left",
+          "yaw": -100
+        }
+      ]
+    },
+    {
+      "id": "7",
+      "area": "Grande salle du Bouddha",
+      "label": "Grande salle",
+      "label_en": "Main hall",
+      "label_zh": "大殿",
+      "image": "images/panos/test7.jpg",
+      "pitch": -6.8,
+      "yaw": 178,
+      "hfov": 100,
+      "horizonRoll": 2,
+      "horizonPitch": 0,
+      "hotspots": [
+        {
+          "pitch": 25.5,
+          "yaw": 131.2,
+          "tourItemId": "2-2"
+        },
+        {
+          "pitch": 10.3,
+          "yaw": 177.6,
+          "tourItemId": "3-1"
+        },
+        {
+          "pitch": -5.6,
+          "yaw": 166.2,
+          "tourItemId": "3-4"
+        },
+        {
+          "pitch": -4.9,
+          "yaw": -170.3,
+          "tourItemId": "3-3"
+        },
+        {
+          "pitch": -6.6,
+          "yaw": -141.6,
+          "tourItemId": "3-5"
+        },
+        {
+          "pitch": 4.1,
+          "yaw": 170.9,
+          "tourItemId": "3-8"
+        },
+        {
+          "pitch": 2.4,
+          "yaw": 178.1,
+          "tourItemId": "3-2"
+        },
+        {
+          "pitch": 2.7,
+          "yaw": -173.8,
+          "tourItemId": "3-9"
+        }
+      ],
+      "exits": [
+        {
+          "type": "branch",
+          "toSceneId": "2",
+          "label": "Retour à l'entrée",
+          "label_en": "Back to the entrance",
+          "label_zh": "回到入口",
+          "yaw": 90,
+          "reset": true
+        }
+      ]
+    },
+    {
+      "id": "8",
+      "area": "Salle de Ksitigarbha",
+      "label": "Salle de Ksitigarbha",
+      "label_en": "Ksitigarbha Hall",
+      "label_zh": "地藏殿",
+      "image": "images/panos/test8.jpg",
+      "pitch": 0,
+      "yaw": 0,
+      "hfov": 100,
+      "horizonRoll": 1.2,
+      "horizonPitch": 0,
+      "hotspots": [
+        {
+          "pitch": 0,
+          "yaw": 0,
+          "tourItemId": "4-1"
+        }
+      ],
+      "exits": [
+        {
+          "type": "branch",
+          "toSceneId": "6",
+          "label": "Retour au hall d'accueil",
+          "label_en": "Back to the lobby",
+          "label_zh": "回到大廳",
+          "yaw": 180,
+          "reset": true
+        }
+      ]
+    }
+  ]
+}
