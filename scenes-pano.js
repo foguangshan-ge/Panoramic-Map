@@ -45,7 +45,7 @@ const SCENES = [
       { pitch: 3.7, yaw: 97.7, tourItemId: "1-4" },
     ],
     exits: [
-      { type: "advance", toSceneId: "6", label: "Entrer dans le hall", label_en: "Enter the lobby", label_zh: "進入大廳", yaw: 0, targetYaw: 0, targetPitch: 0 },
+      { type: "advance", toSceneId: "6", label: "Entrer dans le hall", label_en: "Enter the lobby", label_zh: "進入大廳", yaw: 0, targetYaw: 176.6, targetPitch: -3.6 },
       { type: "branch", toSceneId: "9", label: "Aile gauche (extérieur)", label_en: "Left wing (outdoor)", label_zh: "左側戶外", side: "left", yaw: -110 },
       { type: "branch", toSceneId: "10", label: "Aile droite (extérieur)", label_en: "Right wing (outdoor)", label_zh: "右側戶外", yaw: 110 },
     ],
