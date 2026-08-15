@@ -332,9 +332,13 @@ class PanoEngine {
   }
 
   toggleGyro() {
-    if (!this.viewer) return;
-    this.viewer.toggleOrientation ? this.viewer.toggleOrientation() : null;
+  if (!this.viewer) return;
+  if (this.viewer.isOrientationActive()) {
+    this.viewer.stopOrientation();
+  } else {
+    this.viewer.startOrientation();
   }
+}
 }
 
 // ============================================================

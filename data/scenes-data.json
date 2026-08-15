@@ -70,8 +70,8 @@
           "label_en": "Enter the lobby",
           "label_zh": "進入大廳",
           "yaw": 0,
-          "targetYaw": 0,
-          "targetPitch": 0
+          "targetYaw": 175.8 ,
+          "targetPitch":-4.5
         },
         {
           "type": "branch",
