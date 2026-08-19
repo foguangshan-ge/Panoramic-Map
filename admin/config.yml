@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: Shikong1101/Panoramic-Map
+  repo: foguangshan-ge/Panoramic-Map
   branch: main
   base_url: https://black-cloud-bfc9.renweizhang23.workers.dev
   auth_endpoint: auth
