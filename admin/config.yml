@@ -2,7 +2,7 @@ backend:
   name: github
   repo: foguangshan-ge/Panoramic-Map
   branch: main
-  base_url: https://black-cloud-bfc9.renweizhang23.workers.dev
+  base_url: https://sweet-math-1267.foguangshan-ge.workers.dev
   auth_endpoint: auth
 
 # 每次存檔前，Decap 會先跳出「這則變更的內容 vs 原本內容」給你確認，
